@@ -2,13 +2,13 @@
 
 # Description
   >> This is a *ASP.NET CORE RESTful API*
-       >>> Learn more: https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-6.0&tabs=visual-studio
+       >>> Learn more: (https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-6.0&tabs=visual-studio)
   >> The API uses dotnet version 5.0
-       >>> https://dotnet.microsoft.com/en-us/download/dotnet/5.0
+       >>> (https://dotnet.microsoft.com/en-us/download/dotnet/5.0)
 
-  >> This API using MVC design patterns (Models, Views and Controllers)
-  >> It following Unit of Work Patterns
-      >>> https://dotnettutorials.net/lesson/unit-of-work-csharp-mvc/#:~:text=The%20Unit%20of%20Work%20pattern%20is%20used%20to,operations%20either%20pass%20or%20fail%20as%20one%20unit.
+  >> This API uses MVC design patterns (Models, Views and Controllers)
+  >> It followsUnit of Work Patterns
+      >>> (https://dotnettutorials.net/lesson/unit-of-work-csharp-mvc/#:~:text=The%20Unit%20of%20Work%20pattern%20is%20used%20to,operations%20either%20pass%20or%20fail%20as%20one%20unit)
 
 
 # Run API local
