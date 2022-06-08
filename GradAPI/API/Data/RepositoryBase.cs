@@ -37,9 +37,9 @@ namespace API.Data
         {
             _appDbContext.Set<T>().Update(entity);
         }
-       /* public void SaveChanges()
+        public int SaveChanges()
         {
-            _appDbContext.Set<T>().SaveChanges();
-        }*/
+            return _appDbContext.SaveChanges();
+        }
     }
 }
