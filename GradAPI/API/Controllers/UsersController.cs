@@ -22,13 +22,13 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<AppUser>> GetUsers(){
-            return _context.AppUsers.GetAll().ToList();
+        public ActionResult<IEnumerable<Grads>> GetUsers(){
+            return _context.Grads.GetAll().ToList();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<AppUser> GetUser(int id){
-           return _context.AppUsers.GetById(id);
+        public ActionResult<Grads> GetUser(int id){
+           return _context.Grads.GetById(id);
         }
     }
 }

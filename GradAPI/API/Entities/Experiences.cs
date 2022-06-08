@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace API.Entities
 {
-    public class Hobbies:GradActivity
+    public class Experiences : GradActivity
     {
     }
 }

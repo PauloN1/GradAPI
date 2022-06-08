@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 namespace API.Data
 {
     public static class SeedData
@@ -22,20 +23,33 @@ namespace API.Data
             {
                 context.Hobbies.AddRange
                     (
-                        new Hobbies { Name = "Sporting", UserId= 1},
-                        new Hobbies { Name = "Reading", UserId = 1 },
-                        new Hobbies { Name = "Running or Jogging", UserId=2 },
-                        new Hobbies { Name = "Music and Social", UserId= 2},
-                        new Hobbies { Name = "Reading", UserId = 3 },
-                        new Hobbies { Name = "Running or Jogging", UserId=3 },
+                        new Hobbies { Name = "Sporting",  Description = "Playing outdoors and watching soccer games"},
+                        new Hobbies { Name = "Reading", Description = "Reading Novels"},
+                        new Hobbies { Name = "Running or Jogging", Description = "Health excercises"}
+                       /* new Hobbies { Name = "Running or Jogging", UserId=3 },
                         new Hobbies { Name = "Sporting", UserId= 3},
                         new Hobbies { Name = "Programming", UserId = 3 },
                         new Hobbies { Name = "Family Gathering", UserId=3 },
                         new Hobbies { Name = "Cuddling", UserId= 1},
                         new Hobbies { Name = "Socializing", UserId = 1 },
-                        new Hobbies { Name = "Running or Jogging", UserId=1 }
+                        new Hobbies { Name = "Running or Jogging", UserId=1 }*/
         
                     );
+            }
+            if(!context.Experiences.Any()){
+
+                context.Experiences.AddRange(
+                    new Experiences{
+                        Name = "Java",
+                        Description = "SpringBoot",
+                        
+                    },
+                    new Experiences{
+                        Name = "Serverless BankEnd",
+                        Description = "Node.js and Javascript"
+                    }
+                );
+
             }
             context.SaveChanges();
        } 

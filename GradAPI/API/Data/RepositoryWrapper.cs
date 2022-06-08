@@ -7,9 +7,13 @@ namespace API.Data
 {
     public class RepositoryWrapper : IRepositoryWrapper
     {
-         private DataContext _appDbContext;
+        //Singleton Pattern : Instantiates only once
+
+        private readonly DataContext _appDbContext;
         private IHobbiesRepository hobbies;
-        private IUserRepository appusers;
+        private IUserRepository grads;
+        private IExperienceRepository experience;
+        private IProjectsRepository projects;
         public RepositoryWrapper(DataContext appDbContext)
         {
             _appDbContext = appDbContext;
@@ -25,14 +29,36 @@ namespace API.Data
             }
 
         }
-          public IUserRepository AppUsers
+          public IUserRepository Grads
         {
             get
             {
-                if (appusers == null)
-                    appusers = new EFUserRepository(_appDbContext);
+                if (grads == null)
+                    grads = new EFUserRepository(_appDbContext);
 
-                return appusers;
+                return grads;
+            }
+
+        }
+        public IExperienceRepository Experiences
+        {
+            get
+            {
+                if (experience == null)
+                    experience = new EFExperienceRepository(_appDbContext);
+
+                return experience;
+            }
+
+        }
+        public IProjectsRepository Projects
+        {
+            get
+            {
+                if (projects == null)
+                    projects = new EFProjectsRepository(_appDbContext);
+
+                return projects;
             }
 
         }

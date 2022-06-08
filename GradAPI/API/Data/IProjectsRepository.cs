@@ -6,7 +6,7 @@ using API.Entities;
 
 namespace API.Data
 {
-    public interface IUserRepository: IRepositoryBase<Grads>
+    public interface IProjectsRepository : IRepositoryBase<Projects>
     {
         
     }
