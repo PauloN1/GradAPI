@@ -6,13 +6,12 @@ using API.Entities;
 
 namespace API.Data
 {
-    public class EFUserRepository: RepositoryBase<Grads>, IUserRepository
+    public class EFExperienceRepository: RepositoryBase<Experiences>, IExperienceRepository
     {
-        public EFUserRepository(DataContext appDbContext)
+        public EFExperienceRepository(DataContext appDbContext)
             : base(appDbContext)
         {
         }
         
     }
-    
 }
