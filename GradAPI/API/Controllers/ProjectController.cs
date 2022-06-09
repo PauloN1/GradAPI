@@ -190,14 +190,14 @@ namespace API.Controllers
     {
 
       int statusCode = -1;
-      string message = "";
+      string errorMessage = "";
 
       if (!int.TryParse(id.ToString(), out id)) {
 
         if (statusCode == -1) {
 
           statusCode = 400;
-          message = "Invalid Id presented";
+          errorMessage = "Invalid Id presented";
         }
       }
 
@@ -209,7 +209,7 @@ namespace API.Controllers
           if (statusCode == -1) {
 
             statusCode = 500;
-            message = "User with specified id not found!";
+            errorMessage = "User with specified id not found!";
           }
         }
 
@@ -222,7 +222,7 @@ namespace API.Controllers
           if (statusCode == -1) {
 
           statusCode = 200;
-          message = "Updated Project: '" + projectDTO.Name + "' Successful!";
+          errorMessage = "Updated Project: '" + projectDTO.Name + "' Successful!";
           }
       }
       }
@@ -231,7 +231,7 @@ namespace API.Controllers
         if (statusCode == -1) {
 
           statusCode = 500;
-          message = "Failed to Update Project: '" + projectDTO.Name;
+          errorMessage = "Failed to Update Project: '" + projectDTO.Name;
         }
       }
       finally {
@@ -239,12 +239,57 @@ namespace API.Controllers
         if (statusCode == -1) {
 
           statusCode = 500;
-          message = "Invalid Id presented";
+          errorMessage = "Invalid Id presented";
         }
       }
 
-      return StatusCode(statusCode, message);
+      return StatusCode(statusCode, errorMessage);
     }
 
+    /* Update project details */
+    [HttpDelete("deleteProject/{id}")]
+    public ActionResult DeleteProject(int id)
+    {
+      Projects project = _context.Projects.GetById(id);
+
+      int statusCode = -1;
+      string errorMessage = "";
+
+      try {
+
+        _context.Projects.Delete(project);
+
+        if (_context.Projects.SaveChanges() > 0) {
+
+          statusCode = 200;
+          errorMessage = "Deleted project: '" + project.Name + "' Successfully!";
+        }
+        else {
+
+          if (statusCode == -1) {
+
+            statusCode = 500;
+            errorMessage = "Failed to Delete project " + project.Name;
+          }
+        }
+      }
+      catch {
+
+        if (statusCode == -1) {
+
+          statusCode = 500;
+          errorMessage = "Failed to Delete project " + project.Name;
+        }
+      }
+      finally {
+
+        if (statusCode == -1) {
+
+          statusCode = 500;
+          errorMessage = "Failed to Delete project " + project.Name;
+        }
+      }
+      return StatusCode(statusCode, errorMessage);
+    }
   }
 }
