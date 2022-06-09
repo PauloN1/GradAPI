@@ -7,7 +7,7 @@ namespace API.Data
 {
     public interface IRepositoryWrapper
     {
-        //Adapter Design Pattern : Achieves the open close principles
+        //Adapter Design Pattern : Achieves the open-closed principles
 
         IHobbiesRepository Hobbies{get;}
         IUserRepository Grads{get;}
