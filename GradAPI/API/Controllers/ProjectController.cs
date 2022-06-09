@@ -183,5 +183,68 @@ namespace API.Controllers
       }
       return StatusCode(statusCode, errorMessage);
     }
+
+    /* Update project details */
+    [HttpPatch("updateProject/{id}")]
+    public ActionResult EditProject(int id, GradProjectsDTO projectDTO)
+    {
+
+      int statusCode = -1;
+      string message = "";
+
+      if (!int.TryParse(id.ToString(), out id)) {
+
+        if (statusCode == -1) {
+
+          statusCode = 400;
+          message = "Invalid Id presented";
+        }
+      }
+
+      try {
+
+        Projects oldProject = _context.Projects.GetById(id);
+        if (oldProject == null) {
+
+          if (statusCode == -1) {
+
+            statusCode = 500;
+            message = "User with specified id not found!";
+          }
+        }
+
+        oldProject.Name = projectDTO.Name;
+        oldProject.Description = projectDTO.Description;
+        _context.Projects.Update(oldProject);
+
+        if (_context.Projects.SaveChanges() > 0) {
+
+          if (statusCode == -1) {
+
+          statusCode = 200;
+          message = "Updated Project: '" + projectDTO.Name + "' Successful!";
+          }
+      }
+      }
+      catch {
+
+        if (statusCode == -1) {
+
+          statusCode = 500;
+          message = "Failed to Update Project: '" + projectDTO.Name;
+        }
+      }
+      finally {
+
+        if (statusCode == -1) {
+
+          statusCode = 500;
+          message = "Invalid Id presented";
+        }
+      }
+
+      return StatusCode(statusCode, message);
+    }
+
   }
 }
