@@ -6,13 +6,10 @@ using API.Entities;
 
 namespace API.Data
 {
-    public class EFUserRepository: RepositoryBase<Grads>, IUserRepository
+    public class EFUserRepository : RepositoryBase<Grads>, IUserRepository
     {
         public EFUserRepository(DataContext appDbContext)
             : base(appDbContext)
-        {
-        }
-        
+        { }
     }
-    
 }

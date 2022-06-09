@@ -8,6 +8,9 @@ namespace API.Data
 {
     public interface IExperienceRepository : IRepositoryBase<Experiences>
     {
-        
+        Experiences GetByName(string name);
+        List<int> GetGradsIDsUsingExperienceId(int experienceID);
+        List<Grads> GetGradsUsingGradIDs(List<int> gradIDs);
+
     }
 }
