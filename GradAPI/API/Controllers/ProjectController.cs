@@ -65,7 +65,7 @@ namespace API.Controllers
     public ActionResult<List<GradUsersDTO>> GetGrads(string projectName)
     {
       int statusCode = -1;
-      string message = "";
+      string errorMessage = "";
       int project = -1;
       List<int> gradIDs = new List<int>();
       List<Grads> grads = new List<Grads>();
@@ -99,7 +99,7 @@ namespace API.Controllers
           if (statusCode == -1) {
 
             statusCode = 500;
-            message = "No project with given name";
+            errorMessage = "No project with given name";
           }
         }
         if (!(gradIDs.Count > 0)) {
@@ -107,7 +107,7 @@ namespace API.Controllers
           if (statusCode == -1) {
 
             statusCode = 200;
-            message = "No grad ids: No grads with project '" + projectName + "'";
+            errorMessage = "No grad ids: No grads with project '" + projectName + "'";
           }
         }
         if (!(grads.Count > 0)) {
@@ -115,7 +115,7 @@ namespace API.Controllers
           if (statusCode == -1) {
 
             statusCode = 200;
-            message = "No grads: No grads with project '" + projectName + "'";
+            errorMessage = "No grads: No grads with project '" + projectName + "'";
           }
         }
       }
@@ -124,10 +124,64 @@ namespace API.Controllers
         if (statusCode == -1)
         {
           statusCode = 500;
-          message = "Grads could not be retrieved!";
+          errorMessage = "Grads could not be retrieved!";
         }
       }
-      return StatusCode(statusCode, message);
+      return StatusCode(statusCode, errorMessage);
+    }
+
+    /* Add New project */
+    [HttpPost("addProject")]
+    public ActionResult<GradProjectsDTO> AddProject(GradActivitiesDTO projectDTO)
+    {
+      int statusCode = -1;
+      string errorMessage = "";
+
+      Projects project = new Projects
+      {
+          Name = projectDTO.Name,
+          Description = projectDTO.Description
+      };
+
+      try {
+
+        if (project.Name == null || project.Name == "" || project.Description == null || project.Description == "") {
+
+          statusCode = 400;
+          errorMessage = "Input data missing fields!";
+        }
+        else {
+
+          _context.Projects.Create(project);
+
+          if (_context.Projects.SaveChanges() > 0)
+          {
+            return CreatedAtAction(nameof(AddProject), project);
+          }
+          else
+          {
+            statusCode = 500;
+            errorMessage = "Could not add project, try again.";
+          }
+        }
+      }
+      catch {
+
+        if (statusCode == -1) {
+
+          statusCode = 500;
+          errorMessage = "Could not add project, try again.";
+        }
+      }
+      finally {
+
+        if (statusCode == -1) {
+
+          statusCode = 500;
+          errorMessage = "Could not add project, try again.";
+        }
+      }
+      return StatusCode(statusCode, errorMessage);
     }
   }
 }

@@ -88,8 +88,6 @@ namespace API.Data
               );
             }
 
-            context.SaveChanges();
-
             /*
             Grads
             */
@@ -104,8 +102,6 @@ namespace API.Data
                 );
             }
 
-            context.SaveChanges();
-
             /*
             Grad/Experience
                 */
@@ -118,7 +114,6 @@ namespace API.Data
                      new GradExperiences { GradId = 2, ExperiencesId = 2, Duration = 2 }
                  );
             }
-            context.SaveChanges();
 
             /*
             * GradProjects Data
