@@ -40,7 +40,7 @@ namespace API.Data
             /*
             Experience data
             */
-            if (!context.Hobbies.Any())
+            if (!context.Experiences.Any())
             {
                 context.Experiences.AddRange(
                     new Experiences { Name = "Java", Description = "SpringBoot", },
@@ -68,9 +68,11 @@ namespace API.Data
                 );
             }
 
+            context.SaveChanges();
+
             /* 
             Grad/Experience
-            */
+                */
 
             if (!context.GradExperiences.Any())
             {
@@ -80,6 +82,7 @@ namespace API.Data
                      new GradExperiences { GradId = 2, ExperiencesId = 2, Duration = 2 }
                  );
             }
+
 
             context.SaveChanges();
         }
