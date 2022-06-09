@@ -141,7 +141,13 @@ namespace API.Data
                 new GradProjects
                 {
                   GradId = 2,
-                  ProjectsId = 2,
+                  ProjectsId = 1,
+                  Duration = 2
+                },
+                new GradProjects
+                {
+                  GradId = 1,
+                  ProjectsId = 3,
                   Duration = 2
                 }
               );
