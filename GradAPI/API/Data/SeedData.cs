@@ -54,7 +54,41 @@ namespace API.Data
                 );
             }
 
-            /* 
+            /*
+            * Projects Data
+            */
+            if (!context.Projects.Any())
+            {
+              context.Projects.AddRange(
+                new Projects
+                {
+                  Name = "Database Fundamentals",
+                  Description = "This Level-Up focuses on relational databases with a specific focus on database design using Microsoft SQL Server.",
+                },
+                new Projects
+                {
+                  Name = "Java & C# Fundamentals",
+                  Description = "This Level-Up consists of two courses, one which covers the Java language fundamentals and the Spring framework, and one which covers the C# language fundamentals and the .Net Core framework.",
+                },
+                new Projects
+                {
+                  Name = "JavaScript",
+                  Description = ""
+                },
+                new Projects
+                {
+                  Name = "Web Development Fundamentals",
+                  Description = "This Level-Up incorporates an exposure to HTML, CSS, JavaScript as well as certain JavaScript frameworks such as Angular and React."
+                },
+                new Projects
+                {
+                  Name = "Service Design and Design Patterns",
+                  Description = "This Level-Up introduces design concepts such as design patterns. It also incorporates service design and a high-level overview of architectural principles."
+                }
+              );
+            }
+
+            /*
             Grads
             */
             if (!context.Grads.Any())
@@ -68,9 +102,7 @@ namespace API.Data
                 );
             }
 
-            context.SaveChanges();
-
-            /* 
+            /*
             Grad/Experience
                 */
 
@@ -83,7 +115,38 @@ namespace API.Data
                  );
             }
 
-
+            /*
+            * GradProjects Data
+            */
+            if (!context.GradProjects.Any())
+            {
+              context.GradProjects.AddRange(
+                new GradProjects
+                {
+                  GradId = 1,
+                  ProjectsId = 1,
+                  Duration = 2
+                },
+                new GradProjects
+                {
+                  GradId = 1,
+                  ProjectsId = 2,
+                  Duration = 2
+                },
+                new GradProjects
+                {
+                  GradId = 2,
+                  ProjectsId = 1,
+                  Duration = 2
+                },
+                new GradProjects
+                {
+                  GradId = 1,
+                  ProjectsId = 3,
+                  Duration = 2
+                }
+              );
+            }
             context.SaveChanges();
         }
     }
