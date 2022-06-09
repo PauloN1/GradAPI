@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cc328454\\OneDrive - Nedbank\\Desktop\\GradlevelUp\\GradAPI\\API\\API.csproj": {}
+    "C:\\Users\\bbdnet2378\\Desktop\\Grad Level Up\\GradAPI\\GradAPI\\GradAPI\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cc328454\\OneDrive - Nedbank\\Desktop\\GradlevelUp\\GradAPI\\API\\API.csproj": {
+    "C:\\Users\\bbdnet2378\\Desktop\\Grad Level Up\\GradAPI\\GradAPI\\GradAPI\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cc328454\\OneDrive - Nedbank\\Desktop\\GradlevelUp\\GradAPI\\API\\API.csproj",
+        "projectUniqueName": "C:\\Users\\bbdnet2378\\Desktop\\Grad Level Up\\GradAPI\\GradAPI\\GradAPI\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\cc328454\\OneDrive - Nedbank\\Desktop\\GradlevelUp\\GradAPI\\API\\API.csproj",
-        "packagesPath": "C:\\Users\\cc328454\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cc328454\\OneDrive - Nedbank\\Desktop\\GradlevelUp\\GradAPI\\API\\obj\\",
+        "projectPath": "C:\\Users\\bbdnet2378\\Desktop\\Grad Level Up\\GradAPI\\GradAPI\\GradAPI\\API\\API.csproj",
+        "packagesPath": "C:\\Users\\bbdnet2378\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\bbdnet2378\\Desktop\\Grad Level Up\\GradAPI\\GradAPI\\GradAPI\\API\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\cc328454\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\bbdnet2378\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -90,7 +87,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.407\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }
