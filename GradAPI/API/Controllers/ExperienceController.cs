@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using API.Entities;
 using API.Data;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+using API.DTOs;
 
 namespace API.Controllers
 {
@@ -25,28 +24,43 @@ namespace API.Controllers
             _context = context;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<Experiences>> GetExperiences()
+        public ActionResult<IEnumerable<GradExperienceDTO>> GetExperiences()
         {
-            return _context.Experiences.GetAll().ToList();
+            var experiences = _context.Experiences.GetAll().ToList();
+            var experiencesDTO = new List<GradExperienceDTO>();
+            foreach (var item in experiences)
+            {
+                experiencesDTO.Add(new GradExperienceDTO
+                {
+                    Name = item.Name,
+                    Description = item.Description
+                });
+            }
+            return experiencesDTO.ToList();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Experiences> GetExperience(int id)
+        public ActionResult<GradExperienceDTO> GetExperience(int id)
         {
             Experiences experience = _context.Experiences.GetById(id);
+
             if (experience == null)
             {
                 return StatusCode(200, "Experience with Id " + id + " does not exist!");
             }
             else
             {
-                return experience;
+                return new GradExperienceDTO
+                {
+                    Name = experience.Name,
+                    Description = experience.Description
+                }; ;
             }
         }
 
         // get all grads based on experience name
         [HttpGet("grads/{experienceName}")]
-        public ActionResult<List<Grads>> GetGrads(string experienceName)
+        public ActionResult<List<GradUsersDTO>> GetGrads(string experienceName)
         {
             int statusCode = -1;
             string message = "";
@@ -64,7 +78,21 @@ namespace API.Controllers
                 // Grad id list -> grads
                 grads = _context.Experiences.GetGradsUsingGradIDs(gradIDs);
 
-                return grads;
+                List<GradUsersDTO> gradUsersDTOs = new List<GradUsersDTO>();
+
+                foreach (var item in grads)
+                {
+                    gradUsersDTOs.Add(new GradUsersDTO
+                    {
+                        FirstName = item.FirstName,
+                        LastName = item.LastName,
+                        Email = item.Email,
+                        Country = item.Country,
+                        Age = item.Age
+                    });
+                }
+
+                return gradUsersDTOs;
             }
             catch
             {
@@ -107,11 +135,17 @@ namespace API.Controllers
 
         // add 
         [HttpPut("add")]
-        public ActionResult<Experiences> AddExperience(Experiences experience)
+        public ActionResult<GradExperienceDTO> AddExperience(GradActivitiesDTO experienceDTO)
         {
 
             int statusCode = -1;
             string message = "";
+
+            Experiences experience = new Experiences
+            {
+                Name = experienceDTO.Name,
+                Description = experienceDTO.Description
+            };
 
             try
             {
@@ -124,7 +158,6 @@ namespace API.Controllers
                 else
                 {
                     // add
-                    experience.Id = 0;
                     _context.Experiences.Create(experience);
 
                     if (_context.Experiences.SaveChanges() > 0)
@@ -159,7 +192,7 @@ namespace API.Controllers
 
         // update
         [HttpPatch("update/{id}")]
-        public ActionResult EditExperience(int id, Experiences experience)
+        public ActionResult EditExperience(int id, GradExperienceDTO experienceDTO)
         {
 
             int statusCode = -1;
@@ -185,8 +218,8 @@ namespace API.Controllers
                         message = "User with specified id not found!";
                     }
                 }
-                curExperience.Name = experience.Name;
-                curExperience.Description = experience.Description;
+                curExperience.Name = experienceDTO.Name;
+                curExperience.Description = experienceDTO.Description;
                 _context.Experiences.Update(curExperience);
 
                 if (_context.Hobbies.SaveChanges() > 0)
@@ -194,7 +227,7 @@ namespace API.Controllers
                     if (statusCode == -1)
                     {
                         statusCode = 200;
-                        message = "Updated Hobby: '" + experience.Name + "' Successful!";
+                        message = "Updated Hobby: '" + experienceDTO.Name + "' Successful!";
                     }
                 }
             }
@@ -203,7 +236,7 @@ namespace API.Controllers
                 if (statusCode == -1)
                 {
                     statusCode = 500;
-                    message = "Failed to Update Experience: '" + experience.Name;
+                    message = "Failed to Update Experience: '" + experienceDTO.Name;
                 }
             }
             finally

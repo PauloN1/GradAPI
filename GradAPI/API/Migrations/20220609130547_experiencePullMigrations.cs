@@ -1,24 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace API.Data.Migrations
+namespace API.Migrations
 {
-    public partial class UpdatedMig : Migration
+    public partial class experiencePullMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropColumn(
-                name: "UserId",
-                table: "Hobbies");
-
-            migrationBuilder.AddColumn<string>(
-                name: "Description",
-                table: "Hobbies",
-                type: "TEXT",
-                nullable: true);
-
             migrationBuilder.CreateTable(
                 name: "Experiences",
                 columns: table => new
@@ -52,6 +39,20 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Hobbies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Description = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Hobbies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
@@ -72,8 +73,7 @@ namespace API.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     GradId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ExperienceId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ExperiencesId = table.Column<int>(type: "INTEGER", nullable: true),
+                    ExperiencesId = table.Column<int>(type: "INTEGER", nullable: false),
                     Duration = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -84,7 +84,7 @@ namespace API.Data.Migrations
                         column: x => x.ExperiencesId,
                         principalTable: "Experiences",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_GradExperiences_Grads_GradId",
                         column: x => x.GradId,
@@ -193,34 +193,13 @@ namespace API.Data.Migrations
                 name: "Experiences");
 
             migrationBuilder.DropTable(
+                name: "Hobbies");
+
+            migrationBuilder.DropTable(
                 name: "Grads");
 
             migrationBuilder.DropTable(
                 name: "Projects");
-
-            migrationBuilder.DropColumn(
-                name: "Description",
-                table: "Hobbies");
-
-            migrationBuilder.AddColumn<int>(
-                name: "UserId",
-                table: "Hobbies",
-                type: "INTEGER",
-                nullable: false,
-                defaultValue: 0);
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    UserName = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
         }
     }
 }
