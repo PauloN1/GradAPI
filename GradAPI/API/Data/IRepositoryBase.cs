@@ -12,5 +12,6 @@ namespace API.Data
         void Create(T entity);
         void Update(T entity);
         void Delete(T entity);
+        int SaveChanges();
     } 
 }
