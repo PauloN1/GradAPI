@@ -30,5 +30,21 @@ namespace API.Data
 
       return result;
     }
+
+    public List<Grads> GetGradsUsingGradIDs(List<int> gradIDs)
+    {
+      List<Grads> result = new List<Grads>();
+
+      foreach (int gradID in gradIDs)
+      {
+        Grads validGrad = _appDbContext.Grads.FirstOrDefault(grad => grad.Id == gradID);
+        if (validGrad != null)
+        {
+          result.Add(validGrad);
+        }
+      }
+
+      return result;
+    }
   }
 }

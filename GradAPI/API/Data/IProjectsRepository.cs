@@ -10,5 +10,6 @@ namespace API.Data
   {
     Projects GetByName(string name);
     List<int> GetGradsIDsUsingProjectId(int projectID);
+    List<Grads> GetGradsUsingGradIDs(List<int> gradIDs);
   }
 }
