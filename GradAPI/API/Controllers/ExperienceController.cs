@@ -214,22 +214,38 @@ namespace API.Controllers
                 {
                     if (statusCode == -1)
                     {
-                        statusCode = 500;
-                        message = "User with specified id not found!";
+                        statusCode = 400;
+                        message = "No user with specified id found!";
                     }
                 }
-                curExperience.Name = experienceDTO.Name;
-                curExperience.Description = experienceDTO.Description;
-                _context.Experiences.Update(curExperience);
-
-                if (_context.Hobbies.SaveChanges() > 0)
+                else if (experienceDTO.Name == null && experienceDTO.Description == null)
                 {
+                    // no params given
                     if (statusCode == -1)
                     {
-                        statusCode = 200;
-                        message = "Updated Hobby: '" + experienceDTO.Name + "' Successful!";
+                        statusCode = 400;
+                        message = "No fields specified!";
                     }
                 }
+                else
+                {
+                    // missing  
+                    curExperience.Name = experienceDTO.Name == null ? curExperience.Name : experienceDTO.Name;
+                    curExperience.Description = experienceDTO.Description == null ? curExperience.Description : experienceDTO.Description;
+
+
+                    _context.Experiences.Update(curExperience);
+
+                    if (_context.Hobbies.SaveChanges() > 0)
+                    {
+                        if (statusCode == -1)
+                        {
+                            statusCode = 200;
+                            message = "Updated hobby '" + curExperience.Name + "' successfully!";
+                        }
+                    }
+                }
+
             }
             catch
             {
@@ -254,26 +270,35 @@ namespace API.Controllers
         [HttpDelete("delete/{id}")]
         public ActionResult DeleteExperience(int id)
         {
-            Experiences experience = _context.Experiences.GetById(id);
-
             int statusCode = -1;
             string message = "";
 
             try
             {
+                Experiences experience = _context.Experiences.GetById(id);
+
+                if (experience == null)
+                {
+                    if (statusCode == -1)
+                    {
+                        statusCode = 500;
+                        message = "No experience with specified id found!";
+                    }
+                }
+
                 _context.Experiences.Delete(experience);
 
                 if (_context.Experiences.SaveChanges() > 0)
                 {
                     statusCode = 200;
-                    message = "Deleted Experience: '" + experience.Name + "' Successfully!";
+                    message = "Deleted experience '" + experience.Name + "' successfully!";
                 }
                 else
                 {
                     if (statusCode == -1)
                     {
                         statusCode = 500;
-                        message = "Failed to Delete Experience ";
+                        message = "Could not delete experience ";
                     }
                 }
             }
@@ -282,7 +307,7 @@ namespace API.Controllers
                 if (statusCode == -1)
                 {
                     statusCode = 500;
-                    message = "Failed to Delete Experience ";
+                    message = "Error deleting experience. Try again!";
                 }
             }
             finally
@@ -290,7 +315,7 @@ namespace API.Controllers
                 if (statusCode == -1)
                 {
                     statusCode = 500;
-                    message = "Failed to Delete Experience ";
+                    message = "Error deleting experience. Try again!";
                 }
             }
             return StatusCode(statusCode, message);
