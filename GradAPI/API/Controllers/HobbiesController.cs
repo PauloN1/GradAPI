@@ -7,11 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using API.Data;
 using API.Entities;
+using API.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers {
     [Route("api/[controller]")] public class HobbiesController: BaseAPIController {
-        private readonly ILogger < HobbiesController>_logger;
+        private readonly ILogger<HobbiesController> _logger;
         private readonly IRepositoryWrapper _context;
 
         public HobbiesController(ILogger < HobbiesController > logger, IRepositoryWrapper context) {
@@ -20,30 +21,47 @@ namespace API.Controllers {
         }
 
         [HttpGet]
-         public ActionResult <IEnumerable<Hobbies>> GetHobbies() {
-            return _context.Hobbies.GetAll().ToList();
+         public ActionResult <IEnumerable<GradHobbiesDTO>> GetHobbies() {
+            var hobbies = _context.Hobbies.GetAll().ToList();
+            var _hobbies = new List<GradHobbiesDTO>();
+            foreach (var item in hobbies)
+            {
+                _hobbies.Add(new GradHobbiesDTO{
+                    Name = item.Name,
+                    Description = item.Description
+                });
+            }
+            return _hobbies;
         }
 
         [HttpGet("{id}")] 
-        public ActionResult<Hobbies> GetHobby(int id) {
-            return _context.Hobbies.GetById(id);
+        public ActionResult<GradHobbiesDTO> GetHobby(int id) {
+            var hobby = _context.Hobbies.GetById(id);
+            return new GradHobbiesDTO{
+                Name = hobby.Name,
+                Description = hobby.Description
+            };
         }
 
         [HttpPost("add")] 
-        public ActionResult<Hobbies> AddHobby(Hobbies Hobby) {
-            _context.Hobbies.Create(Hobby);
+        public ActionResult<GradHobbiesDTO> AddHobby(GradHobbiesDTO Hobby) {
+            var hobby = new Hobbies{
+                Name = Hobby.Name,
+                Description = Hobby.Description
+            };
+            _context.Hobbies.Create(hobby);
 
-            if (_context.Hobbies.SaveChanges() > 0) return CreatedAtAction(nameof(AddHobby), new {
-                    id=Hobby.Id
-                }
-
-                , Hobby);
+            if (_context.Hobbies.SaveChanges() > 0)
+                  return CreatedAtAction(nameof(AddHobby), new
+                  { 
+                      id=hobby.Id
+                  }, hobby);
 
             return StatusCode(500, "Failed to Create Hobby: "+ Hobby.Name);
         }
 
         [HttpPut("edit/{id}")]
-        public IActionResult UpdateHobby(int id, Hobbies Hobby) {
+        public IActionResult UpdateHobby(int id, GradHobbiesDTO Hobby) {
           if(!int.TryParse(id.ToString(), out id))
                 return BadRequest("Invalid Id presented");
               
