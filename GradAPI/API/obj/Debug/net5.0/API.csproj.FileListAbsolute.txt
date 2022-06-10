@@ -114,3 +114,6 @@ C:\Users\bbdnet2378\Desktop\Grad Level Up\GradAPI\GradAPI\GradAPI\API\obj\Debug\
 C:\Users\bbdnet2378\Desktop\Grad Level Up\GradAPI\GradAPI\GradAPI\API\obj\Debug\net5.0\API.pdb
 C:\Users\bbdnet2378\Desktop\Grad Level Up\GradAPI\GradAPI\GradAPI\API\obj\Debug\net5.0\API.genruntimeconfig.cache
 C:\Users\bbdnet2378\Desktop\Grad Level Up\GradAPI\GradAPI\GradAPI\API\obj\Debug\net5.0\ref\API.dll
+C:\Users\cc328454\OneDrive - Nedbank\Desktop\GradlevelUp\GradAPI\API\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.Google.dll
+C:\Users\cc328454\OneDrive - Nedbank\Desktop\GradlevelUp\GradAPI\API\bin\Debug\net5.0\Microsoft.AspNet.Identity.Core.dll
+C:\Users\cc328454\OneDrive - Nedbank\Desktop\GradlevelUp\GradAPI\API\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
