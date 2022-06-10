@@ -37,6 +37,7 @@ namespace API.Data
 
                     );
             }
+              context.SaveChanges();
             /*
             Experience data
             */
@@ -53,7 +54,7 @@ namespace API.Data
                     new Experiences { Name = "Ruby", Description = "Object-Orientated where everything is an object" }
                 );
             }
-
+              context.SaveChanges();
             /*
             * Projects Data
             */
@@ -87,7 +88,7 @@ namespace API.Data
                 }
               );
             }
-
+                context.SaveChanges();
             /*
             Grads
             */
@@ -101,7 +102,7 @@ namespace API.Data
                     new Grads { FirstName = "Marc", LastName = "Johnson", Email = "mj@gmail.com", Country = "RSA", Branch = "CT", Age = 26 }
                 );
             }
-
+              context.SaveChanges();
             /*
             Grad/Experience
                 */
@@ -114,7 +115,7 @@ namespace API.Data
                      new GradExperiences { GradId = 2, ExperiencesId = 2, Duration = 2 }
                  );
             }
-
+            context.SaveChanges();
             /*
             * GradProjects Data
             */
