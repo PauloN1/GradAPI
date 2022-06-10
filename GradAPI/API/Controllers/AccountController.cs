@@ -44,7 +44,7 @@ namespace API.Controllers
             }catch(Exception ex){
                 return BadRequest(ex.Message);
             }
-            return BadRequest("Error Unkown!");
+            return BadRequest("Unkown Error Occured!");
         }
 
         [HttpGet("signin")]
