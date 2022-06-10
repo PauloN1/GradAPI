@@ -15,7 +15,10 @@ using Microsoft.EntityFrameworkCore;
 using API.Data;
 using  Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace API
 {
     public class Startup
@@ -52,9 +55,10 @@ namespace API
                      options.AddPolicy(MyAllowSpecificOrigins,
                           policy =>
                           {
-                              policy.WithOrigins("*")
-                                    .AllowAnyHeader()
-                                    .AllowAnyMethod();
+                               policy.WithMethods("GET","POST")
+                               .AllowAnyHeader()
+                              .AllowCredentials()
+                              .WithOrigins("http://localhost:5000", "https://localhost:5001");
                           });
             });
             /*services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
@@ -62,6 +66,13 @@ namespace API
                microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
                microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
             });*/
+             services
+        .AddAuthentication(options =>
+        {
+            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+        }).AddCookie();
+
             services.AddAuthentication().AddGoogle(googleOptions =>
             {
                 googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
@@ -84,6 +95,7 @@ namespace API
             app.UseRouting();
             app.UseCors(MyAllowSpecificOrigins);
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
          

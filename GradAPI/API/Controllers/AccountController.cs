@@ -12,7 +12,7 @@ using API.Entities;
 using API.Data;
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("signin-google")]
     public class AccountController : Controller
     {
         private readonly ILogger<AccountController> _logger;
@@ -31,15 +31,15 @@ namespace API.Controllers
             _logger = logger;
             _context = context;
         }
-        [HttpPost("fetch-user")]
+        [HttpPost]
         public IActionResult ExternalLogin()
         {
             // Request a redirect to the external login provider.
             try{
-                var returnUrl = "https://localhost:5001/api/Account/signin";
+                var returnUrl = "https://localhost:5001/api/Account/signin-google";
             var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl });
             string provider =  "Google";
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, "");
             return Challenge(properties, provider);
             }catch(Exception ex){
                 return BadRequest(ex.Message);
@@ -47,7 +47,7 @@ namespace API.Controllers
             return BadRequest("Unkown Error Occured!");
         }
 
-        [HttpGet("signin")]
+        [HttpGet]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
             if (remoteError != null)
