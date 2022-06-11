@@ -14,5 +14,6 @@ namespace API.Data
         IExperienceRepository Experiences{get;}
         IProjectsRepository Projects{get;}
         IGradProjects GradProjects{get;}
+        IGradHobbies GradHobbies{get;}
     }
 }

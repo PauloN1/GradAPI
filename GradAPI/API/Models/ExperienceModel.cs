@@ -6,9 +6,9 @@ using API.DTOs;
 
 namespace API.Models
 {
-    public class ProjectModel
+    public class ExperienceModel
     {
         public GradUsersDTO Grad {get;set;}
-        public List<GradProjectsDTO> GradProjects{get;set;}
+        public List<GradExperienceDTO> GradExperiences{get;set;}
     }
 }

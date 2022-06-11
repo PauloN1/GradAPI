@@ -116,6 +116,17 @@ namespace API.Data
                  );
             }
             context.SaveChanges();
+
+            if (!context.GradHobbies.Any())
+            {
+                context.GradHobbies.AddRange(
+                     new GradHobbies { GradId = 1, HobbiesId = 1 },
+                     new GradHobbies { GradId = 2, HobbiesId = 2 },
+                     new GradHobbies { GradId = 3, HobbiesId = 3 }
+                 );
+            }
+            context.SaveChanges();
+
             /*
             * GradProjects Data
             */
