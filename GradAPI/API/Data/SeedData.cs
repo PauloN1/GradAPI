@@ -111,7 +111,7 @@ namespace API.Data
             {
                 context.GradExperiences.AddRange(
                      new GradExperiences { GradId = 1, ExperiencesId = 1, Duration = 2 },
-                     new GradExperiences { GradId = 1, ExperiencesId = 2, Duration = 2 },
+                     new GradExperiences { GradId = 3, ExperiencesId = 2, Duration = 2 },
                      new GradExperiences { GradId = 2, ExperiencesId = 2, Duration = 2 }
                  );
             }

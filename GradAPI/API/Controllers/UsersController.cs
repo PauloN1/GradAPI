@@ -125,5 +125,51 @@ namespace API.Controllers
       }
     }
 
+    /* Get Experiences of given grad */
+    [HttpGet("experiences")]
+    public  ActionResult<ExperienceModel> GetUserWithExperiences(string UserEmail) {
+
+      try {
+
+      var grads = _context.Grads.GetAll().ToList().FirstOrDefault(grad => grad.Email == UserEmail);
+
+        if(grads == null)
+        {
+          return StatusCode(200, "User with email " + UserEmail + " does not exist!");
+        }
+
+        var gradExId = _context.GradExperiences.GetAll().ToList().Where(gradEx => gradEx.GradId == grads.Id);
+
+        List<GradExperienceDTO> GradExp = new  List<GradExperienceDTO>();
+
+        foreach (var item in gradExId)
+        {
+          var exp = _context.Experiences.GetById(item.ExperiencesId);
+          GradExp.Add(
+            new GradExperienceDTO{
+              Name = exp.Name,
+              Description = exp.Description,
+              Duration = item.Duration
+            }
+          );
+        }
+
+        return new ExperienceModel {
+            Grad = new GradUsersDTO{
+              FirstName = grads.FirstName,
+              LastName = grads.LastName,
+              Email = grads.Email,
+              Age = grads.Age,
+              Branch = grads.Branch,
+              Country = grads.Country
+            },
+            GradExperiences = GradExp
+        };
+      }
+      catch(Exception ex) {
+        return BadRequest(ex.Message);
+      }
+    }
+
   }
 }

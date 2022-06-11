@@ -16,6 +16,7 @@ namespace API.Data
         private IProjectsRepository projects;
         private IGradProjects gradprojects;
         private IGradHobbies gradhobbies;
+        private IGradExperiences gradexp;
         public RepositoryWrapper(DataContext appDbContext)
         {
             _appDbContext = appDbContext;
@@ -40,6 +41,17 @@ namespace API.Data
               gradhobbies = new EFGradHobbiesRepository(_appDbContext);
 
             return gradhobbies;
+          }
+        }
+
+        public IGradExperiences GradExperiences
+        {
+          get
+          {
+            if (gradexp == null)
+              gradexp = new EFGradExperiencesRepository(_appDbContext);
+
+            return gradexp;
           }
         }
 
