@@ -1,4 +1,4 @@
-﻿using Auth0.NET.ViewModels;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -6,16 +6,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using API.DTOs;
 
 namespace Auth0.NET.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class AccountController : Controller
     {
+      
         public async Task Login(string returnUrl = "/")
         {
             await HttpContext.ChallengeAsync("Auth0", new AuthenticationProperties() { RedirectUri = returnUrl });
         }
-
         [Authorize]
         public async Task Logout()
         {
@@ -32,11 +34,11 @@ namespace Auth0.NET.Controllers
         [Authorize]
         public IActionResult Profile()
         {
-            return View(new UserProfileViewModel()
+            return View(new GradUsersDTO()
             {
-                Name = User.Identity.Name,
-                EmailAddress = User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value,
-                ProfileImage = User.FindFirst(c => c.Type == "picture")?.Value
+                FirstName = User.Identity.Name,
+                LastName = User.FindFirst(c => c.Type == "picture")?.Value,
+                Email = User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value,
             });
         }
 
@@ -50,7 +52,6 @@ namespace Auth0.NET.Controllers
         {
             return View();
         }
-
         public IActionResult AccessDenied()
         {
             return View();

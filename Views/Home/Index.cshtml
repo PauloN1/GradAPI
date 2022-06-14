@@ -1,10 +1,28 @@
-﻿@{
+﻿@model Auth0.NET.ViewModels.LoginErrorViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="row">
+@if (Model.ShowRequestId)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+       <h4 class="alert-heading">403 Forbidden!</h4>
+        <p>Error Code: @Model.RequestId</p>
+        <hr>
+        <p class="mb-0">@Model.Message</p>
+   </div>
+}
+
+<div class="Jumbostrom">
     <div class="col-md-12">
-        <h2>Welcome to the Auth0 ASP.NET Core MVC Starter Project</h2>
-        <p>To follow along in building this sample please <a href="https://auth0.com/docs/quickstart/webapp/aspnet-core">refer to the Quickstart</a>.
+        <h2>Welcome to the GradAPI ASP.NET Core MVC Project!</h2>
+        @if(!User.Identity.IsAuthenticated){
+            <p>To start, log in to test api > <a asp-action="Login" asp-controller="Account">Login</a></p>
+        }
+        else
+        {
+             <p>Test api here <a target="_blank" href="https://localhost:5001/swagger/index.html">Swagger</a></p>
+        }
     </div>
 </div>

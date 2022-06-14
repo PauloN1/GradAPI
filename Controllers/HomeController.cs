@@ -8,12 +8,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Auth0.NET.Models;
 using System.Globalization;
+using Microsoft.AspNetCore.Authorization;
+using Auth0.NET.ViewModels;
 
 namespace Auth0.NET.Controllers
 {
+   
     public class HomeController : Controller
     {
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(LoginErrorViewModel model)
         {
             // If the user is authenticated, then this is how you can get the access_token and id_token
             if (User.Identity.IsAuthenticated)
@@ -34,7 +37,7 @@ namespace Auth0.NET.Controllers
                 // access_token and id_token, see https://auth0.com/docs/tokens
             }
 
-            return View();
+            return View(model);
         }
 
         public IActionResult Error()

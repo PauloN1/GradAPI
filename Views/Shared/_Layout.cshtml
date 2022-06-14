@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SampleMvcApp</title>
+    <title>@ViewData["Title"] - Brought to you by Paulo, Snady and Marco</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -25,9 +25,13 @@
             </button>
                
             <div class="navbar-collapse collapse">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">SampleMvcApp</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Grad API</a>
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item"><a class="nav-link" href="https://localhost:5001/swagger/index.html">API Tests</a></li>
+                    }
                 </ul>
                 <ul class="navbar-nav navbar-right">
                     @if (User.Identity.IsAuthenticated)
@@ -50,7 +54,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2020 - SampleMvcApp</p>
+            <p>&copy; @DateTime.Now.Year - Brought to you by Sandy, Paulo and Marco</p>
         </footer>
     </div>
 
