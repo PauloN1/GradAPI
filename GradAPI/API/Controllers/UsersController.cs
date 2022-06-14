@@ -172,6 +172,132 @@ namespace API.Controllers
     }
 
     /* Add Project under Grads Project history */
-    //[HttpPost("addProject")]
+    [HttpPost("addProject")]
+    public IActionResult addGradProject(GradProjectsDTO gradProject, string userEmail){
+
+      int statusCode = -1;
+      string errorMessage = "";
+      var project = _context.Projects.GetAll().ToList().FirstOrDefault(proj => proj.Name == gradProject.Name);
+      var grads = _context.Grads.GetAll().ToList().FirstOrDefault(grad => grad.Email == userEmail);
+
+      try {
+        // object is null
+        if (project.Name == null || project.Name == "") {
+          statusCode = 400;
+          errorMessage = "Cold not find project"+ project.Name;
+        }
+
+        if (project.Id == 0) {
+          statusCode = 400;
+          errorMessage = "Cold not find project"+ project.Name;
+        }
+
+        if(grads == null) {
+          statusCode = 200;
+          errorMessage = "User with email " + userEmail + " does not exist!";
+        }
+
+        GradProjects gradProj = new GradProjects{
+          GradId = grads.Id,
+          ProjectsId = project.Id,
+          Duration = gradProject.Duration
+        };
+
+        _context.GradProjects.Create(gradProj);
+
+        if (_context.GradProjects.SaveChanges() > 0) {
+            return CreatedAtAction(nameof(addGradProject), gradProj);
+        }
+        else {
+          statusCode = 500;
+          errorMessage = "Could not add project, try again.";
+        }
+      }
+      catch {
+        statusCode = 400;
+        errorMessage = "user not found. Could not add project";
+      }
+
+      return StatusCode(statusCode, errorMessage);
+    }
+
+    /* Add Hobbies under Grads Hobbies history */
+    [HttpPost("addHobby")]
+    public IActionResult addGradHobby(GradHobbiesDTO gradHobby, string userEmail){
+
+      var hobbies = _context.Hobbies.GetAll().ToList().FirstOrDefault(hobby => hobby.Name == gradHobby.Name);
+      var grads = _context.Grads.GetAll().ToList().FirstOrDefault(grad => grad.Email == userEmail);
+
+      try {
+        if (hobbies.Name == null || hobbies.Name == "") {
+          return StatusCode(400, "Cold not find hobby"+ hobbies.Name);
+        }
+
+        if (hobbies.Id == 0) {
+          return StatusCode(400, "Cold not find hobby"+ hobbies.Name);
+        }
+
+        if(grads == null) {
+          return StatusCode(200, "User with email " + userEmail + " does not exist!");
+        }
+
+        GradHobbies gradHob = new GradHobbies{
+          GradId = grads.Id,
+          HobbiesId = hobbies.Id
+        };
+
+        _context.GradHobbies.Create(gradHob);
+
+        if (_context.GradHobbies.SaveChanges() > 0) {
+          return CreatedAtAction(nameof(addGradHobby), gradHob);
+        }
+        else {
+          return StatusCode(500, "Could not add hobby, try again.");
+        }
+      }
+      catch(Exception ex) {
+        return BadRequest(ex.Message);
+      }
+    }
+
+    /* Add Experience under Grads Experience history */
+    [HttpPost("addExperience")]
+    public IActionResult addGradExp(GradExperienceDTO gradExp, string userEmail){
+
+      var experience = _context.Experiences.GetAll().ToList().FirstOrDefault(exp => exp.Name == gradExp.Name);
+      var grads = _context.Grads.GetAll().ToList().FirstOrDefault(grad => grad.Email == userEmail);
+
+      try {
+        if (experience.Name == null || experience.Name == "") {
+          return StatusCode(400, "Cold not find experience"+ experience.Name);
+        }
+
+        if (experience.Id == 0) {
+          return StatusCode(400, "Cold not find experience"+ experience.Name);
+        }
+
+        if(grads == null) {
+          return StatusCode(200, "User with email " + userEmail + " does not exist!");
+        }
+
+        GradExperiences gradExperience = new GradExperiences{
+          GradId = grads.Id,
+          ExperiencesId = experience.Id,
+          Duration = gradExp.Duration
+        };
+
+        _context.GradExperiences.Create(gradExperience);
+
+        if (_context.GradExperiences.SaveChanges() > 0) {
+          return CreatedAtAction(nameof(addGradExp), gradExperience);
+        }
+        else {
+          return StatusCode(500, "Could not add experience, try again.");
+        }
+      }
+      catch(Exception ex) {
+        return BadRequest(ex.Message);
+      }
+    }
   }
 }
