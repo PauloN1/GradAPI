@@ -171,28 +171,91 @@ namespace API.Controllers
       }
     }
 
+    /* Add user details for logged in user */
+    [HttpPatch("updateUserDetails")]
+    public IActionResult updateDetails(GradUsersDTO users, string userEmail){
+
+      int statusCode = -1;
+      string errorMessage = "";
+      var grads = _context.Grads.GetAll().ToList().FirstOrDefault(grad => grad.Email == userEmail);
+
+      try {
+        var gradId = grads.Id;
+
+        if(grads == null) {
+
+          statusCode = 200;
+          errorMessage = "User with email " + userEmail + " does not exist!";
+        }
+
+        Grads oldGrad = _context.Grads.GetById(gradId);
+        if (oldGrad == null) {
+
+          if (statusCode == -1) {
+
+            statusCode = 500;
+            errorMessage = "User with specified email not found!";
+          }
+        }
+
+        oldGrad.FirstName = users.FirstName;
+        oldGrad.LastName = users.LastName;
+        oldGrad.Email = userEmail;
+        oldGrad.Country = users.Country;
+        oldGrad.Branch = users.Branch;
+        oldGrad.Age = users.Age;
+        _context.Grads.Update(oldGrad);
+
+        if (_context.Grads.SaveChanges() > 0) {
+
+          if (statusCode == -1) {
+
+            statusCode = 200;
+            errorMessage = "Updated details for: '" + users.LastName + "' Successful!";
+          }
+        }
+      } catch {
+        if (statusCode == -1) {
+
+          statusCode = 500;
+          errorMessage = "Failed to Update your details.";
+        }
+      }
+      finally {
+
+        if (statusCode == -1) {
+
+          statusCode = 500;
+          errorMessage = "Invalid email presented";
+        }
+      }
+
+      return StatusCode(statusCode, errorMessage);
+    }
+
     /* Add Project under Grads Project history */
     [HttpPost("addProject")]
     public IActionResult addGradProject(GradProjectsDTO gradProject, string userEmail){
 
       int statusCode = -1;
       string errorMessage = "";
-      var project = _context.Projects.GetAll().ToList().FirstOrDefault(proj => proj.Name == gradProject.Name);
       var grads = _context.Grads.GetAll().ToList().FirstOrDefault(grad => grad.Email == userEmail);
+      var project = _context.Projects.GetAll().ToList().FirstOrDefault(proj => proj.Name == gradProject.Name);
 
       try {
         // object is null
         if (project.Name == null || project.Name == "") {
+
           statusCode = 400;
           errorMessage = "Cold not find project"+ project.Name;
-        }
+        }else if (project.Id == 0) {
 
-        if (project.Id == 0) {
           statusCode = 400;
           errorMessage = "Cold not find project"+ project.Name;
         }
 
         if(grads == null) {
+
           statusCode = 200;
           errorMessage = "User with email " + userEmail + " does not exist!";
         }
@@ -206,14 +269,17 @@ namespace API.Controllers
         _context.GradProjects.Create(gradProj);
 
         if (_context.GradProjects.SaveChanges() > 0) {
-            return CreatedAtAction(nameof(addGradProject), gradProj);
+
+          return CreatedAtAction(nameof(addGradProject), gradProj);
         }
         else {
+
           statusCode = 500;
           errorMessage = "Could not add project, try again.";
         }
       }
       catch {
+
         statusCode = 400;
         errorMessage = "user not found. Could not add project";
       }
@@ -225,20 +291,22 @@ namespace API.Controllers
     [HttpPost("addHobby")]
     public IActionResult addGradHobby(GradHobbiesDTO gradHobby, string userEmail){
 
+      int statusCode = -1;
+      string errorMessage = "";
       var hobbies = _context.Hobbies.GetAll().ToList().FirstOrDefault(hobby => hobby.Name == gradHobby.Name);
       var grads = _context.Grads.GetAll().ToList().FirstOrDefault(grad => grad.Email == userEmail);
 
       try {
-        if (hobbies.Name == null || hobbies.Name == "") {
-          return StatusCode(400, "Cold not find hobby"+ hobbies.Name);
-        }
+        if (hobbies.Name == null || hobbies.Name == "" || hobbies.Id == 0) {
 
-        if (hobbies.Id == 0) {
-          return StatusCode(400, "Cold not find hobby"+ hobbies.Name);
+          statusCode = 400;
+          errorMessage = "Cold not find hobby"+ hobbies.Name;
         }
 
         if(grads == null) {
-          return StatusCode(200, "User with email " + userEmail + " does not exist!");
+
+          statusCode = 200;
+          errorMessage = "User with email " + userEmail + " does not exist!";
         }
 
         GradHobbies gradHob = new GradHobbies{
@@ -249,35 +317,44 @@ namespace API.Controllers
         _context.GradHobbies.Create(gradHob);
 
         if (_context.GradHobbies.SaveChanges() > 0) {
+
           return CreatedAtAction(nameof(addGradHobby), gradHob);
         }
         else {
-          return StatusCode(500, "Could not add hobby, try again.");
+
+          statusCode = 500;
+          errorMessage = "Could not add hobby, try again.";
         }
       }
-      catch(Exception ex) {
-        return BadRequest(ex.Message);
+      catch {
+
+        statusCode = 400;
+        errorMessage = "user not found. Could not add hobbby";
       }
+
+      return StatusCode(statusCode, errorMessage);
     }
 
     /* Add Experience under Grads Experience history */
     [HttpPost("addExperience")]
-    public IActionResult addGradExp(GradExperienceDTO gradExp, string userEmail){
+    public IActionResult addGradExp(GradExperienceDTO gradExp, string userEmail) {
 
+      int statusCode = -1;
+      string errorMessage = "";
       var experience = _context.Experiences.GetAll().ToList().FirstOrDefault(exp => exp.Name == gradExp.Name);
       var grads = _context.Grads.GetAll().ToList().FirstOrDefault(grad => grad.Email == userEmail);
 
       try {
-        if (experience.Name == null || experience.Name == "") {
-          return StatusCode(400, "Cold not find experience"+ experience.Name);
-        }
+        if (experience.Name == null || experience.Name == "" || experience.Id == 0) {
 
-        if (experience.Id == 0) {
-          return StatusCode(400, "Cold not find experience"+ experience.Name);
+          statusCode = 400;
+          errorMessage = "Cold not find experience"+ experience.Name;
         }
 
         if(grads == null) {
-          return StatusCode(200, "User with email " + userEmail + " does not exist!");
+
+          statusCode = 200;
+          errorMessage = "User with email " + userEmail + " does not exist!";
         }
 
         GradExperiences gradExperience = new GradExperiences{
@@ -292,12 +369,17 @@ namespace API.Controllers
           return CreatedAtAction(nameof(addGradExp), gradExperience);
         }
         else {
-          return StatusCode(500, "Could not add experience, try again.");
+
+          statusCode = 500;
+          errorMessage = "Could not add experience, try again.";
         }
+      } catch {
+
+        statusCode = 400;
+        errorMessage = "user not found. Could not add experience";
       }
-      catch(Exception ex) {
-        return BadRequest(ex.Message);
-      }
+
+    return StatusCode(statusCode, errorMessage);
     }
   }
 }
