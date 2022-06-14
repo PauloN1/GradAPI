@@ -13,7 +13,5 @@ namespace API.Entities
 
         public int HobbiesId{get;set;}
         public Hobbies Hobbies{get;set;}
-
-        public int Duration{get;set;}
     }
 }
