@@ -9,6 +9,9 @@ namespace API.Data
     public class EFHobbiesRepository: RepositoryBase<Hobbies>, IHobbiesRepository
     {
         public EFHobbiesRepository(DataContext appDbContext)
-            : base(appDbContext) {}
+            : base(appDbContext)
+        {
+        }
+        
     }
 }

@@ -6,5 +6,5 @@ using API.Entities;
 
 namespace API.Data
 {
-    public interface IGradProjects : IRepositoryBase<GradProjects> {}
+    public interface IGradHobbies : IRepositoryBase<GradHobbies> {}
 }
